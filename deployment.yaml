@@ -1,0 +1,47 @@
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: hello-spring-cloud-web
+  labels:
+    app.kubernetes.io/name: hello-spring-cloud
+    app.kubernetes.io/component: web
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 20%
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: hello-spring-cloud
+      app.kubernetes.io/component: web
+  template:
+    metadata:
+      name: hello-spring-cloud-web
+      labels:
+        app.kubernetes.io/name: hello-spring-cloud
+        app.kubernetes.io/component: web
+    spec:
+      terminationGracePeriodSeconds: 60
+      serviceAccountName: hello-spring-cloud
+      containers:
+      - name: hello-spring-cloud-web
+        image: "image-registry.openshift-image-registry.svc:5000/hello-spring-cloud-web:latest"
+        imagePullPolicy: Always
+        command: ["/bin/bash", "-c"]
+        args: ["JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.17.0_RELEASE=printHeapHistogram=1 -Djava.io.tmpdir=$TMPDIR -XX:ActiveProcessorCount=$(nproc) -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext -Djava.security.properties=$PWD/.java-buildpack/java_security/java.security $JAVA_OPTS" && CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.13.0_RELEASE -totMemory=$MEMORY_LIMIT -loadedClasses=17259 -poolType=metaspace -stackThreads=250 -vmOptions="$JAVA_OPTS") && echo JVM Memory Configuration: $CALCULATED_MEMORY && JAVA_OPTS="$JAVA_OPTS $CALCULATED_MEMORY" && MALLOC_ARENA_MAX=2 SERVER_PORT=$PORT eval exec $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp $PWD/. org.springframework.boot.loader.JarLauncher"]
+        ports:
+          - containerPort: 8080
+            protocol: TCP
+        env:
+          - name: PORT
+            value: 8080
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 1
