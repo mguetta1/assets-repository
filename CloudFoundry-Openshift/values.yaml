@@ -32,5 +32,6 @@ manifest:
               protocol: http1
               route: nginx.bosh-lite.com
     space: space
+replicaCount: "3"
 tags:
     - Assets=asset-gen
