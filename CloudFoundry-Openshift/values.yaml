@@ -1,6 +1,6 @@
 application:
     archetypes:
-        - Spring
+        - arch1
     binary: ""
     businessService: ""
     contributors: []
@@ -32,6 +32,5 @@ manifest:
               protocol: http1
               route: nginx.bosh-lite.com
     space: space
-replicaCount: "3"
 tags:
-    - Assets=asset-gen
+    - 3rd party=Apache Aries
