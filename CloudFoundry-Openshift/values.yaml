@@ -1,6 +1,6 @@
 application:
     archetypes:
-        - arch1
+        - cf-arch
     binary: ""
     businessService: ""
     contributors: []
@@ -32,6 +32,5 @@ manifest:
               protocol: http1
               route: nginx.bosh-lite.com
     space: space
-port: "8088"
 tags:
     - 3rd party=Apache Aries
