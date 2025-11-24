@@ -1,18 +1,19 @@
 application:
     archetypes:
-        - cf-arch
+        - arch1
     binary: ""
     businessService: ""
     contributors: []
-    name: nginx
+    name: hello-spring-cloud
     owner: ""
     repository: null
 manifest:
-    docker:
-        image: quay.io/jmontleon/nginx-unprivileged:latest
-    name: nginx
+    buildPacks:
+        - java_buildpack
+    docker: {}
+    name: hello-spring-cloud
     processes:
-        - command: /docker-entrypoint.sh nginx -g daemon off;
+        - command: 'JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.17.0_RELEASE=printHeapHistogram=1 -Djava.io.tmpdir=$TMPDIR -XX:ActiveProcessorCount=$(nproc) -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext -Djava.security.properties=$PWD/.java-buildpack/java_security/java.security $JAVA_OPTS" && CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.13.0_RELEASE -totMemory=$MEMORY_LIMIT -loadedClasses=17259 -poolType=metaspace -stackThreads=250 -vmOptions="$JAVA_OPTS") && echo JVM Memory Configuration: $CALCULATED_MEMORY && JAVA_OPTS="$JAVA_OPTS $CALCULATED_MEMORY" && MALLOC_ARENA_MAX=2 SERVER_PORT=$PORT eval exec $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp $PWD/. org.springframework.boot.loader.JarLauncher'
           disk: "1024"
           healthCheck:
             interval: 30
@@ -20,9 +21,9 @@ manifest:
             timeout: 60
             type: port
           instances: 1
-          lifecycle: docker
+          lifecycle: buildpack
           logRateLimit: "-1"
-          memory: "256"
+          memory: "1024"
           readinessCheck:
             type: process
           type: web
@@ -30,7 +31,9 @@ manifest:
         routes:
             - options: {}
               protocol: http1
-              route: nginx.bosh-lite.com
+              route: hello-spring-cloud-busy-platypus-lt.bosh-lite.com
     space: space
+    stack: cflinuxfs4
 tags:
     - 3rd party=Apache Aries
+    - Platform=Cloud Foundry
