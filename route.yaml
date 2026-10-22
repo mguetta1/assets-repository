@@ -1,0 +1,23 @@
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: tackle-testapp-public
+  labels:
+    helm.sh/chart: quickstart-java-service-0.2.0
+    app.kubernetes.io/name: tackle-testapp-public
+    app.kubernetes.io/instance: tackle-testapp-public
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+    konveyor.io/archetype: "java-arch"
+  annotations:
+    konveyor.io/source-repository: https://github.com/konveyor/tackle-testapp-public
+spec:
+  to:
+    kind: Service
+    name: tackle-testapp-public
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge

@@ -1,0 +1,4 @@
+tackle-testapp-public has been deployed.
+
+Get the application URL via OpenShift Route:
+  oc get route tackle-testapp-public -o jsonpath='{.spec.host}'
