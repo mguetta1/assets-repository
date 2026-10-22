@@ -1,0 +1,25 @@
+Pipeline "hello-app" has been created.
+
+Build strategy: buildah
+
+To trigger a PipelineRun:
+
+  cat <<EOF | oc create -f -
+  apiVersion: tekton.dev/v1
+  kind: PipelineRun
+  metadata:
+    generateName: hello-app-run-
+  spec:
+    pipelineRef:
+      name: hello-app
+    params:
+      - name: NAMESPACE
+        value: $(oc project -q)
+    workspaces:
+      - name: source
+        persistentVolumeClaim:
+          claimName: hello-app-source
+      - name: config-source
+        persistentVolumeClaim:
+          claimName: hello-app-config
+  EOF
