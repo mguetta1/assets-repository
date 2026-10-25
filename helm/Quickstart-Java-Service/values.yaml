@@ -1,0 +1,31 @@
+application:
+    archetypes:
+        - arch1
+    assetRepository:
+        branch: "2026-10-25"
+        kind: git
+        path: helm
+        tag: ""
+        url: https://github.com/mguetta1/assets-repository.git
+    binary: ""
+    businessService: ""
+    contributors: []
+    name: petclinic
+    owner: ""
+    repository:
+        branch: ""
+        kind: git
+        path: ""
+        tag: ""
+        url: https://github.com/spring-projects/spring-petclinic
+manifest: {}
+tags:
+    - Language=Java
+    - Framework=Spring
+    - Framework=Spring Boot
+    - Language=TSQL
+    - Language=SQLPL
+    - Language=PLSQL
+    - Language=PLpgSQL
+    - Tooling=Gradle
+    - Language=Batchfile
