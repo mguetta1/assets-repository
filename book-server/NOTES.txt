@@ -1,0 +1,4 @@
+book-server has been deployed.
+
+Get the application URL via OpenShift Route:
+  oc get route book-server -o jsonpath='{.spec.host}'
