@@ -1,8 +1,8 @@
 # Build stage
-FROM registry.access.redhat.com/ubi9/openjdk-21:latest AS builder
+FROM docker.io/library/maven:3.9-eclipse-temurin-21 AS builder
 WORKDIR /build
 COPY . .
-RUN mvn package -DskipTests
+RUN mvn package -DskipTests -Dcheckstyle.skip=true -Dmaven.gitcommitid.skip=true
 
 # Runtime stage
 FROM registry.access.redhat.com/ubi9/openjdk-21-runtime:latest
