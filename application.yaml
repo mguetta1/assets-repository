@@ -1,0 +1,32 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: petclinic
+  namespace: openshift-gitops
+  labels:
+    helm.sh/chart: quickstart-openshift-gitops-0.1.0
+    app.kubernetes.io/name: petclinic
+    app.kubernetes.io/instance: petclinic
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+    konveyor.io/archetype: "arch1"
+  annotations:
+    konveyor.io/config-repository: https://github.com/mguetta1/assets-repository.git
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/mguetta1/assets-repository.git
+    targetRevision: e2e-2026-10-28
+    path: /
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: petclinic
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

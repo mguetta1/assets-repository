@@ -1,0 +1,4 @@
+petclinic has been deployed.
+
+Get the application URL via OpenShift Route:
+  oc get route petclinic -o jsonpath='{.spec.host}'
