@@ -20,7 +20,7 @@ spec:
   source:
     repoURL: https://github.com/mguetta1/assets-repository.git
     targetRevision: e2e-2026-10-28
-    path: /
+    path: .
   destination:
     server: https://kubernetes.default.svc
     namespace: petclinic
