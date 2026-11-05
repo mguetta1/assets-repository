@@ -1,0 +1,23 @@
+
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: petclinic
+  labels:
+    helm.sh/chart: quickstart-java-service-0.2.0
+    app.kubernetes.io/name: petclinic
+    app.kubernetes.io/instance: petclinic
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+    konveyor.io/archetype: "arch1"
+  annotations:
+    konveyor.io/source-repository: https://github.com/spring-projects/spring-petclinic
+spec:
+  to:
+    kind: Service
+    name: petclinic
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge

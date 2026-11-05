@@ -1,0 +1,25 @@
+Pipeline "petclinic" has been created.
+
+Build strategy: buildah
+
+To trigger a PipelineRun:
+
+  cat <<EOF | oc create -f -
+  apiVersion: tekton.dev/v1
+  kind: PipelineRun
+  metadata:
+    generateName: petclinic-run-
+  spec:
+    pipelineRef:
+      name: petclinic
+    params:
+      - name: NAMESPACE
+        value: $(oc project -q)
+    workspaces:
+      - name: source
+        persistentVolumeClaim:
+          claimName: petclinic-source
+      - name: config-source
+        persistentVolumeClaim:
+          claimName: petclinic-config
+  EOF
